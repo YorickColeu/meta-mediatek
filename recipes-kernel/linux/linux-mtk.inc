@@ -1,22 +1,5 @@
-DESCRIPTION = "Linux Kernel for Mediatek ARM SoCs (MT7623A/N)"
-SECTION = "kernel"
-LICENSE = "GPLv2"
 
-LIC_FILES_CHKSUM = "file://COPYING;md5=d7810fab7487fb0aad327b76f1be7cd7"
-
-FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}-${PV}:"
-
-LINUX_VERSION ?= "4.14"
-KBRANCH ?= "linux-4.14.y"
-KERNEL_VERSION_SANITY_SKIP = "1"
-
-# kernel 4.14.26
-SRCREV ?= "9d760dedb949debdbc7c810196932da570e83139"
-
-SRC_URI = " \
-	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git;branch=${KBRANCH} \
-	file://defconfig \
-	\
+SRC_URI_append_mt7623 = " \
 	file://mt7623a-rfb-emmc.dts \
 	file://mt7623n-bananapi-bpi-r2.dts \
 	\
@@ -59,19 +42,14 @@ SRC_URI_append_mt7623-evb = " \
 	"
 
 # copy our own devicetree files to kernel source directory
-do_configure_prepend () {
+do_configure_prepend_mt7623 () {
 	cp ${B}/../*.dts ${S}/arch/arm/boot/dts
 }
 
 PROVIDES += " virtual/kernel"
+DEPENDS += " lzop-native u-boot u-boot-mkimage-native"
 
-DEPENDS = "lzop-native u-boot u-boot-mkimage-native"
-
-inherit kernel siteinfo
 require recipes-kernel/linux/linux-yocto.inc
-
-PV = "${LINUX_VERSION}+git${SRCPV}"
-
 KCONF_BSP_AUDIT_LEVEL = "0"
 
 COMPATIBLE_MACHINE = "(mt7623-evb|mt7623-bpi-r2)"
