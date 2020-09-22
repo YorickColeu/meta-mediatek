@@ -78,7 +78,7 @@ generate_part_tbl_sd () {
 
 
 generate_scatter_file () {
-    cp ${MTK_IMAGE_FILEDIR}/scatter.template ${IMGDEPLOYDIR}
+    cp ${TOPDIR}/../meta-mediatek/recipes-core/images/scatter.template ${IMGDEPLOYDIR}
     sed -i "s/__PRELOADER_FILE__/preloader-${MACHINE}.bin/g" ${SCATTER_TPL}
     sed -i "s/__PART_FILE__/ptbl-gpt-${MACHINE}.bin/g" ${SCATTER_TPL}
     sed -i "s/__UBOOT_ENV_FILE__/u-boot-env-${MACHINE}-emmc.bin/g" ${SCATTER_TPL}
@@ -98,7 +98,7 @@ generate_scatter_file () {
 }
 
 copy_emmc_preloader () {
-    cp ${MTK_IMAGE_FILEDIR}/preloader-${MACHINE}.bin ${IMGDEPLOYDIR}
+    cp ${TOPDIR}/../meta-mediatek/recipes-core/images/preloader-${MACHINE}.bin ${IMGDEPLOYDIR}
 }
 
 assemble_sd_image () {
